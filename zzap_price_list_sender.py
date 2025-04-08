@@ -7,7 +7,7 @@ import time
 import json
 
 
-module, filename = argv
+module, filename, selector = argv
 
 data = open(filename, 'rb').read()
 
@@ -15,11 +15,18 @@ base64_encoded = base64.b64encode(data).decode('UTF-8')
 
 login = config.USERNAME
 password = config.PASSWD
-code_templ = 350016735	#int код шаблона (этот шаблон должен быть включен и иметь тип 'Загрузка прайса через API')
+code_templ_d = 350016735	#int код шаблона (этот шаблон должен быть включен и иметь тип 'Загрузка прайса через API')
+code_templ_20bar = 330017312
 url = ""	#ссылка на прайс-лист - не нужна для прямого обращения через API, содержащим file_body base64_encoded
 file_body = base64_encoded #string содержимое прайс-листа в кодировке base64
 file_name = filename#	string имя файла
 api_key = config.API
+if selector =="20bar":
+    code_templ = code_templ_20bar
+elif selector =="d":
+    code_templ = code_templ_d
+else:
+    print("Проверьте параметр запуска, d - для загрузки б/у, 20bar - для загрузки оригиналов")
 #
 # print (login)
 # print (password)
